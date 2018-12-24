@@ -36,7 +36,7 @@ i = 0
 'glyph lookup
 ch = ch + "<tr>"
 for x = 1 to ubound(grid,2)-1
-	ch = ch & "<td text-align=""center"" line-height=""1px""><div>"
+	ch = ch & "<td><div>"
 	for y = 1 to ubound(grid,1)-1
 		i = grid(y,x)
 		if (i mod 2 = 1) then
@@ -44,20 +44,6 @@ for x = 1 to ubound(grid,2)-1
 			ch = ch & "&#" & line_arr(i) & "<br>"
 		else
 			ch = ch & chrw(32) & "<br>"
-		end if
-	next
-	ch = ch & "</div></td>"
-next
-ch = ch + "</tr></tbody></table>"
-
-ch = "<table align=""left"" border=""0"" cellpadding=""0"" cellspacing=""0"" > <tbody>"
-for x = 1 to ubound(grid,2)-1
-	ch = ch & "<td text-align=""center""><div>"
-	for y = 1 to ubound(grid,1)-1
-		if y mod 4 = 0 then
-			ch = ch & "&#x" & 2588 & "<br>"
-		else 
-			ch = ch & "&#x" & (2590 + (y mod 4)) & "<br>"
 		end if
 	next
 	ch = ch & "</div></td>"
@@ -75,7 +61,7 @@ With objExplorer
     .Left=400
     .Height=200
     .Width=200
-	.Document.head.InnerHTML="<!doctype html><meta charset=utf-8><style>table{} td, th, tr {text-align: center;} div, br{line-height:1.13em;} table {font-family:monospace;}</style>"
+	.Document.head.InnerHTML="<!doctype html><meta charset=utf-8><style>table{} td, th, tr {text-align: center;} div, br{line-height:1.12em;} table {font-family:monospace;}</style>"
     .Document.Body.InnerHTML = "<div>" & ch & "</div>"
 	'"<img src='C:\Users\Jill\Pictures\face.png'>"
 End With
