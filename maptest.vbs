@@ -34,21 +34,39 @@ next
 ch = "<table align=""left"" border=""0"" cellpadding=""0"" cellspacing=""0"" > <tbody>"
 i = 0
 'glyph lookup
-ch = ch + "<tr>"
-for x = 1 to ubound(grid,2)-1
-	ch = ch & "<td><div>"
-	for y = 1 to ubound(grid,1)-1
+for y = 1 to ubound(grid,1)-1
+	ch = ch + "<tr>"
+	
+	for x = 1 to ubound(grid,2)-1
+		ch = ch & "<td><div>"
 		i = grid(y,x)
 		if (i mod 2 = 1) then
 			i = Int((i-1)/2)
-			ch = ch & "&#" & line_arr(i) & "<br>"
+			ch = ch & "&#" & line_arr(i)
 		else
-			ch = ch & chrw(32) & "<br>"
+			ch = ch & chrw(32)
 		end if
+		ch = ch & "</div></td>"
 	next
-	ch = ch & "</div></td>"
+	ch = ch + "</tr>"
 next
-ch = ch + "</tr></tbody></table>"
+ch = ch + "</tbody></table>"
+
+ch = "<table align=""left""  cellpadding=""0"" cellspacing=""0"" > <tbody>"
+for y = 0 to ubound(grid,1)-1
+	ch = ch + "<tr>"
+	for x = 0 to ubound(grid,2)-1
+		ch = ch & "<td id=""" & y & "," & x & """>"
+		if y mod 4 = 0 then
+			ch = ch & "&#x" & 2588
+		else 
+			ch = ch & "&#x" & (2590 + (y mod 4))
+		end if
+		ch = ch & "</td>"
+	next
+	ch = ch + "</tr>"
+next
+ch = ch + "</tbody></table>"
 
 
 With objExplorer
@@ -61,12 +79,14 @@ With objExplorer
     .Left=400
     .Height=200
     .Width=200
-	.Document.head.InnerHTML="<!doctype html><meta charset=utf-8><style>table{} td, th, tr {text-align: center;} div, br{line-height:1.12em;} table {font-family:monospace;}</style>"
+	.Document.head.InnerHTML="<!doctype html><meta charset=utf-8>"&_
+								"<style>"&_
+									"td{text-align: center; line-height:1.12em;}"&_ 
+								"</style>"
     .Document.Body.InnerHTML = "<div>" & ch & "</div>"
-	'"<img src='C:\Users\Jill\Pictures\face.png'>"
 End With
 
-
+objExplorer.Document.getElementById("5,5").innerhtml = "a"
 
 'Wscript.sleep 4000
 objExplorer.visible = true
